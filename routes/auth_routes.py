@@ -22,10 +22,15 @@ def login():
 def register():
     if request.method == "POST":
         hashed_password = generate_password_hash(request.form["password"])
-
+        # ✅ FIRST USER = ADMIN
+        if User.query.count() == 0:
+            role = "admin"
+        else:
+            role = "user"
         user = User(
             username=request.form["username"],
-            password=hashed_password
+            password=hashed_password,
+            role=role
         )
         db.session.add(user)
         db.session.commit()
