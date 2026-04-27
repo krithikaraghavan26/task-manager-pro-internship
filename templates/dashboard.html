@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | Task Manager Pro{% endblock %}
+
+{% block content %}
+<div class="card shadow-sm">
+  <div class="card-body">
+
+    <!-- STATS -->
+    <div class="row g-3 mb-4">
+      <div class="col-md-4">
+        <div class="card stat-card text-center">
+          <div class="card-body">
+            <div class="text-muted">Today</div>
+            <div class="display-6 fw-bold" id="statToday">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card stat-card text-center">
+          <div class="card-body">
+            <div class="text-muted">Pending</div>
+            <div class="display-6 fw-bold" id="statPending">0</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card stat-card text-center">
+          <div class="card-body">
+            <div class="text-muted">Done</div>
+            <div class="display-6 fw-bold" id="statDone">0</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADD TASK -->
+    <div class="row g-2 mb-3">
+      <div class="col-md-7">
+        <input id="title" class="form-control" placeholder="Enter task title">
+      </div>
+      <div class="col-md-2">
+        <select id="priority" class="form-select">
+          <option>Low</option>
+          <option selected>Medium</option>
+          <option>High</option>
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-primary w-100" id="addBtn">Add Task</button>
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <ul class="nav nav-tabs mb-3" id="filterTabs">
+      <li class="nav-item"><button class="nav-link active" data-status="All">All</button></li>
+      <li class="nav-item"><button class="nav-link" data-status="Todo">Todo</button></li>
+      <li class="nav-item"><button class="nav-link" data-status="In-Progress">In‑Progress</button></li>
+      <li class="nav-item"><button class="nav-link" data-status="Done">Done</button></li>
+    </ul>
+
+    <!-- TASK LIST -->
+    <ul id="taskList" class="list-group"></ul>
+
+  </div>
+</div>
+
+<!-- CHART CARD -->
+<div class="card mt-3 shadow-sm">
+  <div class="card-body">
+    <h6 class="fw-semibold text-center mb-3 text-muted">Task Status Overview</h6>
+    <div class="chart-wrap">
+      <canvas id="taskChart"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal fade" id="editModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Task</h5>
+        <button class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <input id="editTitle" class="form-control mb-2">
+        <select id="editPriority" class="form-select mb-2">
+          <option>Low</option>
+          <option>Medium</option>
+          <option>High</option>
+        </select>
+        <select id="editStatus" class="form-select">
+          <option>Todo</option>
+          <option>In-Progress</option>
+          <option>Done</option>
+        </select>
+        <div id="editError" class="text-danger small mt-2" style="display:none;"></div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" id="saveEditBtn">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+  <!-- Chart.js MUST come before script.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}
